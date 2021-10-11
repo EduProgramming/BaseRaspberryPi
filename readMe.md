@@ -33,3 +33,13 @@ sudo apt-get install pigpio python-pigpio python3-pigpio
 sudo pigpiod
 sudo python3 R04ServoCtrl.py
 ```
+
+### R05
+
+Hello, Flask
+
+### R06
+
+Flask와 HTML 연동
+
+Hello, Flask templates
