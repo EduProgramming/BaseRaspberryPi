@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>전문Labs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='js/axios.js') }}"></script>
+    <script src="https://kit.fontawesome.com/12d92dde75.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="title text-center mt-3 mb-3">
+        <h1>IoT CCTV RC Car</h1>
+    </div>
+    <div class="text-center mb-4">
+        <img class="w-75 h-auto" src="{{ url_for('video_feed') }}">
+    </div>
+    <div class="container">
+        <div class="row my-3">
+            <div class="col-3 text-right font-weight-bold pr-4">CCTV</div>
+            <div class="col-6 text-center font-weight-bold">
+                DC모터
+            </div>
+            <div class="col-3 font-weight-bold">
+                속도제어
+            </div>
+        </div>
+        <div class="row">
+            <div id="servo_controller" class="col-3">
+                <div class="row my-3 justify-content-center">
+                    <input type="checkbox" class="mt-2 mr-1" name="servo_end_checkbox" id="servo_end_checkbox">
+                    <span>EndToEnd</span>
+                </div>
+                <div class="row justify-content-center">
+                    <button id="servo_left_btn" type="button" class="btn btn-info h-50 mr-3">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <button id="servo_right_btn" type="button" class="btn btn-info h-50">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="motor_controller" class="col-6">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button id="forward_btn" type="button" class="btn btn-primary btn-lg">
+                            <i class="fas fa-angle-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center my-2">
+                        <button id="turn_left_btn" type="button" class="btn btn-primary btn-lg">
+                            <i class="fas fa-angle-left"></i>
+                        </button>
+                        <button id="stop_btn" type="button" class="btn btn-primary btn-lg mx-1">
+                            <i class="fas fa-circle"></i>
+                        </button>
+                        <button id="turn_right_btn" type="button" class="btn btn-primary btn-lg">
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button id="backward_btn" type="button" class="btn btn-primary btn-lg">
+                            <i class="fas fa-angle-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 d-flex align-items-center">
+                <div class="row input-group">
+                    <input type="number" class="form-control" name="dc_speed_input" id="dc_speed_input" min="0" max="100">
+                    <button class="ml-2 btn btn-info" id="speed_setting_btn">설정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/move_button.js') }}"></script>
+</body>
+</html>
