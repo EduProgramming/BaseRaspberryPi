@@ -34,6 +34,19 @@ sudo pigpiod
 sudo python3 R04ServoCtrl.py
 ```
 
+#### R04ServoBase
+
+GPIO PWM을 통한 서보모터 제어
+단점, 연산작업에 특화되어 있지 않아 -> 지터링이 발생함
+
+#### R04ServoCtrl
+
+지터링을 방지하기 위해서 `pigpiod` 서버를 구동하여 위의 문제를 해결한 방식
+
+### R07LedPwm
+
+라즈베리파이 GPIO 제어를 통한 PWM 제어
+주파수는 기본적으로 50Hz를 사용하는데 사용하는 특성 센서모듈마다 상이할 수 있음
 
 ## Hello, Flask :snake:
 
