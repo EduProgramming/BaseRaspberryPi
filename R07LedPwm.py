@@ -6,7 +6,7 @@ pin_led = 12
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin_led, GPIO.OUT)
 
-pwm_led = GPIO.PWM(pin_led, 500)
+pwm_led = GPIO.PWM(pin_led, 50)
 pwm_led.start(100)
 
 for power in range(101):
