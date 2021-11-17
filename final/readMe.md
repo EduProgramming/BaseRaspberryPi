@@ -29,7 +29,7 @@ sudo apt-get install pigpio python-pigpio python3-pigpio
 
 ```bash
 # Raspberry Terminal
-cd got_teacher_cctv_car
+cd BaseRaspberryPi/final/
 sudo pigpiod
 sudo python3 app.py
 ```
