@@ -19,7 +19,7 @@ LEFT_MOTOR_BW = 21
 RIGHT_MOTOR_FW = 16
 RIGHT_MOTOR_BW = 26
 
-speed = 0
+speed = 80
 
 # PinMode 설정
 GPIO.setup(LEFT_MOTOR_FW, GPIO.OUT)
@@ -63,6 +63,7 @@ def video_feed():
 
 @app.route('/motor_forward')
 def motor_forward():
+    global speed
     left_bw_speed.ChangeDutyCycle(0)
     right_bw_speed.ChangeDutyCycle(0)
     left_fw_speed.ChangeDutyCycle(speed)
@@ -71,6 +72,7 @@ def motor_forward():
 
 @app.route('/motor_turn_left')
 def motor_turn_left():
+    global speed
     left_fw_speed.ChangeDutyCycle(0)
     right_bw_speed.ChangeDutyCycle(0)
     left_bw_speed.ChangeDutyCycle(speed)
@@ -79,6 +81,7 @@ def motor_turn_left():
 
 @app.route('/motor_turn_right')
 def motor_turn_right():
+    global speed
     left_bw_speed.ChangeDutyCycle(0)
     right_fw_speed.ChangeDutyCycle(0)
     left_fw_speed.ChangeDutyCycle(speed)
@@ -87,6 +90,7 @@ def motor_turn_right():
 
 @app.route('/motor_backward')
 def motor_backward():
+    global speed
     left_fw_speed.ChangeDutyCycle(0)
     right_fw_speed.ChangeDutyCycle(0)
     left_bw_speed.ChangeDutyCycle(speed)
@@ -103,6 +107,7 @@ def motor_stop():
 
 @app.route('/setting_motor_speed', methods=['POST'])
 def setting_motor_speed():
+    global speed
     data = json.loads(request.get_data(), encoding='utf-8')
     speed = data.get('speed', 0)
     speed = max(speed, 0)
