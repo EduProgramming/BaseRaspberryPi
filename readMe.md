@@ -3,6 +3,147 @@
 라즈베리파이 3B+을 이용하여 IoT CCTV RC Car을 만들어 봅시다.
 
 
+
+## :warning:사용방법과 공지사항
+
+교육 시간이 한정되어 설명하지 못했던 부분을 잠시 이 공간을 통해 공지합니다.
+
+해당 공지사항은 12월이 되었을 때 내릴 예정입니다.
+
+교육장에서 다운받은 파일을 통해서는 RC카 기능을 할 수 없습니다.
+
+안되는 이유는 교육장에서 설명드렸기에 넘어가도록 하겠습니다.
+
+
+
+먼저, 최종파일을 다운받아서 실행하는 방법을 기재하겠습니다.
+
+파일이 다운받아있지 않다고 가정했을 때 해당 부분을 라즈베리파이 터미널에 작성해주시면 됩니다.
+
+```bash
+git clone https://github.com/EduProgramming/BaseRaspberryPi.git
+```
+
+해당 부분을 실행하셨다면 폴더명이 `BaseRaspberryPi`라고 생성되게 됩니다. 안에는 github 사이트 주소에서 봤던 파일들이 있는 것을 확인하실 수 있습니다.
+
+
+
+파일이 있는 분들은 여기서부터 진행해주시면 됩니다.
+
+```bash
+cd ~/BaseRaspberryPi/final
+```
+
+이렇게 작성하시면 최종소스를 실행할 수 있는 경로로 터미널이 움직이게 됩니다.
+
+
+
+실행을 시켜보도록 하겠습니다.
+
+```bash
+sudo pigpiod
+sudo python3 app.py
+```
+
+
+
+:rotating_light:**RC카 이동방향이 전진을 눌렀는데 다른 방향으로 갈 때 해결방안**
+
+정말 쉬운 방안으로 설명드리겠습니다.
+
+`app.py` 내용을 보게 되면 아래와 같은 내용이 있습니다.
+
+```python
+@app.route('/motor_forward')
+def motor_forward():
+    global speed
+    left_bw_speed.ChangeDutyCycle(0)
+    right_bw_speed.ChangeDutyCycle(0)
+    left_fw_speed.ChangeDutyCycle(speed)
+    right_fw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_turn_left')
+def motor_turn_left():
+    global speed
+    left_fw_speed.ChangeDutyCycle(0)
+    right_bw_speed.ChangeDutyCycle(0)
+    left_bw_speed.ChangeDutyCycle(speed)
+    right_fw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_turn_right')
+def motor_turn_right():
+    global speed
+    left_bw_speed.ChangeDutyCycle(0)
+    right_fw_speed.ChangeDutyCycle(0)
+    left_fw_speed.ChangeDutyCycle(speed)
+    right_bw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_backward')
+def motor_backward():
+    global speed
+    left_fw_speed.ChangeDutyCycle(0)
+    right_fw_speed.ChangeDutyCycle(0)
+    left_bw_speed.ChangeDutyCycle(speed)
+    right_bw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+```
+
+route의 내용만 바꿔서 처리하면 됩니다.
+
+예를 들어서 왼쪽버튼을 눌렀는데 오른쪽으로 가고, 오른쪽 버튼을 누르면 왼쪽으로 간다고 하겠습니다.
+
+그러면 위의 소스를 아래와 같이 변경하시면 쉽게 됩니다.
+
+
+
+```python
+@app.route('/motor_forward')
+def motor_forward():
+    global speed
+    left_bw_speed.ChangeDutyCycle(0)
+    right_bw_speed.ChangeDutyCycle(0)
+    left_fw_speed.ChangeDutyCycle(speed)
+    right_fw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_turn_right')
+def motor_turn_left():
+    global speed
+    left_fw_speed.ChangeDutyCycle(0)
+    right_bw_speed.ChangeDutyCycle(0)
+    left_bw_speed.ChangeDutyCycle(speed)
+    right_fw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_turn_left')
+def motor_turn_right():
+    global speed
+    left_bw_speed.ChangeDutyCycle(0)
+    right_fw_speed.ChangeDutyCycle(0)
+    left_fw_speed.ChangeDutyCycle(speed)
+    right_bw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+
+@app.route('/motor_backward')
+def motor_backward():
+    global speed
+    left_fw_speed.ChangeDutyCycle(0)
+    right_fw_speed.ChangeDutyCycle(0)
+    left_bw_speed.ChangeDutyCycle(speed)
+    right_bw_speed.ChangeDutyCycle(speed)
+    return jsonify({"result": True})
+```
+
+`@app.route('/motor_turn_right')`와 `@app.route('/motor_turn_left')`을 바꿨습니다.
+
+함수이름과 같이 않아서 조금 와닿진 않지만 작동에는 이상없이 수정이 됩니다.
+
+
+
+
 ## Raspberry GPIO
 
 ### R01
